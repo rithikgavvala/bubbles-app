@@ -9,18 +9,17 @@ import GroupPage from './components/GroupPage';
 import Header from './components/Header';
 
 const routing = (
-    <React.StrictMode>
-        <ChakraProvider>
-            <Header />
-
-            <Router>
-                <Switch>
-                    <Route exact path="/" component={ParentContainer} />
-                    <Route exact path="/group" component={GroupPage} />
-                </Switch>
-            </Router>
-        </ChakraProvider>
-    </React.StrictMode>
+  <React.StrictMode>
+    <ChakraProvider>
+      <Header />
+      <Router>
+        <Switch>
+          <Route exact path="/" component={ParentContainer} />
+          <Route exact path="/group" component={GroupPage} />
+        </Switch>
+      </Router>
+    </ChakraProvider>
+  </React.StrictMode>
 );
 
 ReactDOM.render(routing, document.getElementById('root'));
