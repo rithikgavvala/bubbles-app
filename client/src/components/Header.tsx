@@ -23,6 +23,7 @@ const Header: React.FC = () => {
           <Heading as="h1" letterSpacing={'-.05rem'}>
             Bubbles
           </Heading>
+  
         </Flex>
       </Flex>
     );

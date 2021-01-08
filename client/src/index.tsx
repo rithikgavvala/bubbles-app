@@ -1,19 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+// import App from './App';
 import { ChakraProvider } from '@chakra-ui/react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import ParentContainer from './components/ParentContainer';
+import GroupPage from './components/GroupPage';
+
+
+const routing = (
+
+  <React.StrictMode>
+  <ChakraProvider>
+    <Router>
+      <Switch>
+        <Route exact  path='/' component={ParentContainer}/>
+        <Route  exact path='/group' component={GroupPage}/>
+        </Switch>
+
+    </Router>
+
+
+
+  </ChakraProvider>
+
+</React.StrictMode>
+)
 
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ChakraProvider>
-      <App />
-
-
-    </ChakraProvider>
-
-  </React.StrictMode>,
+  routing,
   document.getElementById('root')
 );
 
