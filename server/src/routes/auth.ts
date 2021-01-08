@@ -1,60 +1,67 @@
-import express = require("express");
-import request = require("request");
-import passport = require("passport");
-import { createLink, AuthenticateOptions } from "../auth/strategies"
-import { IUser } from "../schema";
+// routes/auth.js
 
+var express = require("express");
 export let authRoutes = express.Router();
+var passport = require("passport");
+var dotenv = require("dotenv");
+var util = require("util");
+var url = require("url");
+var querystring = require("querystring");
 
-authRoutes.route("/login").get((req, res, next) => {
-    const callbackURL = createLink(req, "auth/login/callback");
-    console.log(callbackURL)
-    passport.authenticate('oauth2', { callbackURL } as AuthenticateOptions)(req, res, next);
+dotenv.config();
+
+// Perform the login, after login Auth0 will redirect to callback
+authRoutes.get(
+  "/login",
+  passport.authenticate("auth0", {
+    scope: "openid email profile",
+  }),
+  function (req, res) {
+    console.log("hi");
+    res.redirect("/");
+  }
+);
+
+// Perform the final stage of authentication and redirect to previously requested URL or '/user'
+authRoutes.get("/callback", function (req, res, next) {
+  console.log("hello");
+  passport.authenticate("auth0", function (err, user, info) {
+    if (err) {
+      console.log(err);
+      return next(err);
+    }
+    if (!user) {
+      return res.redirect("/login");
+    }
+    req.logIn(user, function (err) {
+      if (err) {
+        return next(err);
+      }
+      const returnTo = req.session.returnTo;
+      console.log(returnTo);
+      delete req.session.returnTo;
+      res.redirect(returnTo || "/ideas");
+    });
+  })(req, res, next);
 });
 
-authRoutes.route("/login/callback").get((req, res, next) => {
-    const callbackURL = createLink(req, "auth/login/callback");
+// Perform session logout and redirect to homepage
+authRoutes.get("/logout", (req, res) => {
+  req.logout();
 
-    if (req.query.error === "access_denied") {
-        res.redirect("/auth/login");
-        return;
-    }
+  var returnTo = req.protocol + "://" + req.hostname;
+  var port = req.connection.localPort;
+  if (port !== undefined && port !== 80 && port !== 443) {
+    returnTo += ":" + port;
+  }
+  var logoutURL = new url.URL(
+    util.format("https://%s/v2/logout", process.env.AUTH0_DOMAIN)
+  );
+  var searchString = querystring.stringify({
+    client_id: process.env.AUTH0_CLIENT_ID,
+    returnTo: returnTo,
+  });
+  logoutURL.search = searchString;
 
-    passport.authenticate("oauth2", {
-        failureRedirect: "/",
-        successReturnToOrRedirect: "/",
-        callbackURL
-    } as AuthenticateOptions)(req, res, next);
-});
-
-authRoutes.route("/check").get((req, res) => {
-    if (req.user) {
-        return res.status(200).json(req.user);
-    } else {
-        return res.status(400).json({ "success": false });
-    }
-});
-
-authRoutes.route("/logout").all(async (req, res) => {
-    const user = req.user as IUser | undefined;
-
-    if (user) {
-        const options = {
-            method: 'POST',
-            url: process.env.GROUND_TRUTH_URL + '/auth/logout',
-            headers:
-            {
-                Authorization: `Bearer ${user.token}`
-            }
-        };
-
-        await request(options, async (err, response, body) => {
-            if (err) { return console.log(err); }
-            await req.logout();
-            res.redirect("/auth/login");
-        });
-    }
-    else {
-        res.redirect("/auth/login");
-    }
+  res.redirect(logoutURL);
 });

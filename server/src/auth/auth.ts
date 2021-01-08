@@ -1,80 +1,100 @@
-import mongoose = require("mongoose");
-import express = require("express");
-import passport = require("passport");
-import session = require("express-session");
-const MongoStore = require('connect-mongo')(session);
-import dotenv from "dotenv"
+const mongoose = require("mongoose");
+const express = require("express");
+const passport = require("passport");
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+import dotenv from "dotenv";
 import { app } from "../app";
 import { IUser, User } from "../schema";
-import { GroundTruthStrategy } from "./strategies";
+// import { GroundTruthStrategy } from "./strategies";
+const Auth0Strategy = require("passport-auth0");
 
 dotenv.config();
 
-if (process.env.PRODUCTION === 'true') {
-    app.enable("trust proxy");
-}
-else {
-    console.warn("OAuth callback(s) running in development mode");
+if (process.env.PRODUCTION === "true") {
+  app.enable("trust proxy");
+} else {
+  console.warn("OAuth callback(s) running in development mode");
 }
 
 const session_secret = process.env.SECRET;
 if (!session_secret) {
-    throw new Error("Secret not specified");
+  throw new Error("Secret not specified");
 }
 
-app.use(session({
+app.use(
+  session({
     secret: session_secret,
     saveUninitialized: false,
     resave: true,
     store: new MongoStore({
-        mongooseConnection: mongoose.connection
-    })
-}));
+      mongooseConnection: mongoose.connection,
+    }),
+  })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-export function isAuthenticated(request: express.Request, response: express.Response, next: express.NextFunction): void {
-    response.setHeader("Cache-Control", "private");
-    if (!request.isAuthenticated() || !request.user) {
-        if (request.session) {
-            request.session.returnTo = request.originalUrl;
-        }
-        response.redirect("/auth/login");
-    } else {
-        next();
+export function isAuthenticated(request, response, next) {
+  response.setHeader("Cache-Control", "private");
+  if (!request.isAuthenticated() || !request.user) {
+    if (request.session) {
+      request.session.returnTo = request.originalUrl;
     }
+    response.redirect("/auth/login");
+  } else {
+    next();
+  }
 }
 
-export function isAdmin(request: express.Request, response: express.Response, next: express.NextFunction) {
-    response.setHeader("Cache-Control", "private");
+// const groundTruthStrategy = new GroundTruthStrategy(String(process.env.GROUND_TRUTH_URL));
+var strategy = new Auth0Strategy(
+  {
+    domain: process.env.AUTH0_DOMAIN,
+    clientID: process.env.AUTH0_CLIENT_ID,
+    clientSecret: process.env.AUTH0_CLIENT_SECRET,
+    callbackURL:
+      process.env.AUTH0_CALLBACK_URL || "http://localhost:3000/auth/callback",
+  },
+  function (accessToken, refreshToken, extraParams, profile, done) {
+    // accessToken is the token to call Auth0 API (not needed in the most cases)
+    // extraParams.id_token has the JSON Web Token
+    // profile has all the information from the user
+    console.log(profile);
+    User.findOne({ uuid: profile.user_id }, (err, user) => {
+      console.log("ERR", err);
+      if (err) {
+        return done(err);
+      }
 
-    const auth = request.headers.authorization;
-    const user = request.user as IUser | undefined;
-
-    if (process.env.PRODUCTION !== "true" || user?.admin) {
-        next();
-    } else if (auth && typeof auth === "string" && auth.includes(" ")) {
-        const key = auth.split(" ")[1].toString();
-
-        if (key === process.env.ADMIN_SECRET) {
-            next();
-        } else {
-            response.status(401).json({ error: "Incorrect auth token provided" });
-        }
-    } else {
-        response.status(401).json({ error: "No auth token provided" });
-    }
-}
-
-const groundTruthStrategy = new GroundTruthStrategy(String(process.env.GROUND_TRUTH_URL));
-
-passport.use(groundTruthStrategy);
-passport.serializeUser<IUser, string>((user, done) => {
-    done(null, user.uuid);
-});
-passport.deserializeUser<IUser, string>((id, done) => {
-    User.findOne({ uuid: id }, (err, user) => {
-        done(err, user!);
+      if (user) {
+        done(null, profile);
+      } else {
+        var newUser = new User();
+        newUser.email = profile.emails[0].value;
+        newUser.uuid = profile.user_id;
+        newUser.name = profile.displayName;
+        newUser.save((err) => {
+          if (err) {
+            throw err;
+          }
+          return done(null, newUser);
+        });
+      }
     });
+
+    // return done(null, profile);
+  }
+);
+
+passport.use(strategy);
+passport.serializeUser((user, done) => {
+  console.log(user);
+  done(null, user.user_id);
+});
+passport.deserializeUser((uuid, done) => {
+  User.findOne({ uuid: uuid }, (err, user) => {
+    done(err, user);
+  });
 });
