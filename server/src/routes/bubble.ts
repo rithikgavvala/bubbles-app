@@ -1,9 +1,9 @@
 import express from "express";
 import { createNew, IUser, User, IBubble, Bubble } from "../schema";
-export let ideaRoutes = express.Router();
+export let bubbleRoutes = express.Router();
 import mongoose from "mongoose";
 
-ideaRoutes.route("/").get(async (req, res, next) => {
+bubbleRoutes.route("/").get(async (req, res, next) => {
   const reqUser = req.user as IUser;
   const user = await User.findById(reqUser._id);
   console.log(user);
