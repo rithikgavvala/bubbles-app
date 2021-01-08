@@ -1,16 +1,16 @@
 import React from 'react';
 import './App.css';
 
-
-import { Box } from '@chakra-ui/react';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import ParentContainer from './components/ParentContainer';
 
 
 const App: React.FC = () => {
   return (
-    <Box minH="100%">
-      <ParentContainer />
-    </Box>
+    <Router>
+        <Route  path='/' component={ParentContainer}/>
+    </Router>
+
 
   );
 }
