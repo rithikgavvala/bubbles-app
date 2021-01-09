@@ -91,9 +91,11 @@ var strategy = new Auth0Strategy(
 passport.use(strategy);
 passport.serializeUser((user, done) => {
   console.log(user);
+  console.log("hiiii", user.user_id);
   done(null, user.user_id);
 });
 passport.deserializeUser((uuid, done) => {
+  console.log(uuid);
   User.findOne({ uuid: uuid }, (err, user) => {
     done(err, user);
   });

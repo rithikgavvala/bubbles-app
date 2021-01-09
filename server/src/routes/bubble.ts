@@ -1,24 +1,20 @@
 import express from "express";
 import { createNew, IUser, User, IBubble, Bubble } from "../schema";
+import { nanoid } from "nanoid";
 export let bubbleRoutes = express.Router();
-import mongoose from "mongoose";
-import e from "express";
 
 bubbleRoutes.route("/").get(async (req, res, next) => {
   const reqUser = req.user as IUser;
   const user = await User.findById(reqUser._id);
-  if(!user){
-    
+  if (!user) {
     return res.send("ERROR USER NOT FOUND");
+  } else {
+    const bubbleId = user.bubbles[0];
+    const usersInBubble = await User.find({ bubble: bubbleId });
 
-  }else{
-    const bubbleId = user.bubbles[0]
-    const usersInBubble = await User.find({bubble: bubbleId})
-
-    return res.send(usersInBubble)
-
+    return res.send(usersInBubble);
   }
-  
+
   console.log(user);
   if (!user) {
     next("Please refresh page");
@@ -33,41 +29,35 @@ bubbleRoutes.route("/").get(async (req, res, next) => {
 });
 
 bubbleRoutes.route("/create").get(async (req, res, next) => {
-  console.log("HELLO TEST")
+  console.log("HELLO TEST");
   const reqUser = req.user as IUser;
-  
+
   const user = await User.findById(reqUser._id);
 
   //logic to randomize here
   let bubble = createNew<IBubble>(Bubble, {
     name: "TEST_BUB",
-    code: "ABCD"
-
+    code: nanoid(4),
   });
-  if(!user){
-    return res.send("USER NOT FOUND")
-  }
-  else{
-    if(user.bubbles.length === 0){
+  if (!user) {
+    return res.send("USER NOT FOUND");
+  } else {
+    if (user.bubbles.length === 0) {
       user.bubbles.push(bubble);
       console.log(user.bubbles);
-      await user.save()
-      
-      return res.send(user.bubbles)
+      await user.save();
+
+      return res.send(user.bubbles);
     }
   }
 });
 
 bubbleRoutes.route("/join/:id").get(async (req, res, next) => {
   const reqUser = req.user as IUser;
-  const groupId = req.params.id; 
+  const groupId = req.params.id;
   console.log(reqUser);
   console.log(groupId);
   //find bubble code in bubbles collection
   //append bubble id to user bubbles list
   //redirect to '/' and we should be gucci
-
-
 });
-
-
