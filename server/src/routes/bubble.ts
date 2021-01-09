@@ -1,31 +1,56 @@
 import express from "express";
 import { createNew, IUser, User, IBubble, Bubble } from "../schema";
 import { customAlphabet } from "nanoid";
+import { ElementFlags, textSpanIsEmpty } from "typescript";
 const nanoid = customAlphabet("1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ", 5);
 export let bubbleRoutes = express.Router();
+
+
+
 
 bubbleRoutes.route("/").get(async (req, res, next) => {
   const reqUser = req.user as IUser;
   const user = await User.findById(reqUser._id);
+  let usersInBubble = [] as any;
   if (!user) {
     return res.send("ERROR USER NOT FOUND");
   } else {
     const bubbleId = user.bubbles[0];
-    const usersInBubble = await User.find({ bubble: bubbleId });
-    return res.send(usersInBubble);
+    usersInBubble = await User.find({ bubbles: bubbleId });
+  }
+  console.log(usersInBubble)
+
+
+
+  let usersRes = [] as any;
+  if(usersInBubble){
+    usersInBubble.forEach(element => {
+      let user = {
+        name: element.name,
+        lastTest: element.tests[element.tests.length - 1]
+      }
+      usersRes.push(user)
+      
+    });
+  }else{
+    return res.send("BRO AINT NO ONE IN THIS DAMN BUBBLE");
   }
 
-  console.log(user);
-  if (!user) {
-    next("Please refresh page");
-    return;
-  }
-  let idea = Bubble.find({ user: user }).exec(function (err, idd) {
-    if (err) {
-      next("Problem querying ideas. Please refresh page.");
-    }
-    return res.send(JSON.stringify(idd));
-  });
+  return res.send(usersRes);
+
+  
+
+  // console.log(user);
+  // if (!user) {
+  //   next("Please refresh page");
+  //   return;
+  // }
+  // let idea = Bubble.find({ user: user }).exec(function (err, idd) {
+  //   if (err) {
+  //     next("Problem querying ideas. Please refresh page.");
+  //   }
+  //   return res.send(JSON.stringify(idd));
+  // });
 });
 
 bubbleRoutes.route("/create").get(async (req, res, next) => {
