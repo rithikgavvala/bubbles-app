@@ -27,9 +27,9 @@ function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const joinGroup = async (id: string): Promise<any> => {
+const createGroup = async (bubbleName: string): Promise<any> => {
   try {
-    const resp = await axios.get('/bubble/join/' + id)
+    const resp = await axios.post('/bubble/create', {name: bubbleName})
     return resp.data;
   }catch (e: any){
     if(e.response){
@@ -44,7 +44,7 @@ const joinGroup = async (id: string): Promise<any> => {
 
 const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [code, setCode] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const toast = useToast();
 
   const history = useHistory();
@@ -56,7 +56,7 @@ const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
     try {
       await delay(500);
 
-      await joinGroup(code);
+      await createGroup(name);
 
       props.closeModal();
       toast({
@@ -82,8 +82,8 @@ const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
     setLoading(false);
   };
 
-  const onCodeChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setCode(event.currentTarget.value);
+  const onNameChange = (event: React.FormEvent<HTMLInputElement>) => {
+    setName(event.currentTarget.value);
   }
 
 
@@ -91,17 +91,17 @@ const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
     <Modal isOpen={props.open} onClose={props.closeModal}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Group Code:</ModalHeader>
+        <ModalHeader>Group Name:</ModalHeader>
         <ModalCloseButton />
           <form onSubmit={handleSubmit}>
           <ModalBody>
             <FormControl>
-              <FormLabel>Type your 5-digit group code:</FormLabel>
-              <Input onChange={onCodeChange} placeholder="XXXXX" />
+              <FormLabel>Type your group name:</FormLabel>
+              <Input onChange={onNameChange} placeholder="i.e. Beyblades: Let it rip" />
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" isLoading={loading}>Join</Button>
+            <Button type="submit" isLoading={loading}>Create</Button>
             <Button onClick={props.closeModal}>Cancel</Button>
           </ModalFooter>
           </form>

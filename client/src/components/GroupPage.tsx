@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import JoinGroupModal from './JoinGroupModal';
+import CreateGroupModal from './CreateGroupModal';
 import { Flex, Heading, Button, Box } from '@chakra-ui/react';
 
 const ParentContainer: React.FC = () => {
   const [isJoinGroupOpen, setJoinGroup] = useState<boolean>(false);
+  const [isCreateGroupOpen, setCreateGroup] = useState<boolean>(false);
 
   const onOpenJoinGroup = () => {
     setJoinGroup(true);
   };
 
+  const onOpenCreateGroup = () => {
+    setCreateGroup(true);
+  };
   return (
     <>
       <Box minH="100%">
@@ -35,9 +40,10 @@ const ParentContainer: React.FC = () => {
           <JoinGroupModal open={isJoinGroupOpen} closeModal={() => setJoinGroup(false)} />
         </Flex>
         <Flex padding="1.5rem">
-          <Button bg="#3182CE" color="white" size="lg">
+          <Button bg="#3182CE" color="white" size="lg" onClick={onOpenCreateGroup}>
             Create Group
           </Button>
+          <CreateGroupModal open={isCreateGroupOpen} closeModal={() => setCreateGroup(false)}/>
         </Flex>
       </Box>
     </>

@@ -73,9 +73,6 @@ const ParentContainer: React.FC = () => {
       if(!fetchedProfile.bubbleCode){
         return false;
       }
-      
-      
-      
       setProfile(fetchedProfile)
       return true;
     };
