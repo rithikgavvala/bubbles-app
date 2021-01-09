@@ -15,7 +15,7 @@ const routing = (
       <Router>
         <Switch>
           <Route exact path="/" component={ParentContainer} />
-          <Route exact path="/group" component={GroupPage} />
+          <Route exact path="/join" component={GroupPage} />
         </Switch>
       </Router>
     </ChakraProvider>

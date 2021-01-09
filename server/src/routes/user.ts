@@ -14,9 +14,9 @@ userRoutes.route("/").get(async (req, res, next) => {
       if (!user) {
         return next("ERR USER NOT FOUND");
       }
-      // if(!user.bubble) {
-      //     return next("user not in bubble")
-      // }
+        // if(!user.bubble) {
+        //     res.redirect('/join');
+        // }
       return res.send({
         name: user.name,
         bubbleCode: user.bubble ? user.bubble.code : null,
