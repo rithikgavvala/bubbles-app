@@ -11,41 +11,31 @@ bubbleRoutes.route("/").get(async (req, res, next) => {
   let usersInBubble = [] as any;
   if (!user) {
     return res.send("ERROR USER NOT FOUND");
-  } else {
-    const bubbleId = user.bubbles[0];
-    usersInBubble = await User.find({ bubbles: bubbleId });
   }
+
+  const bubbleId = user.bubble;
+  if (!bubbleId) {
+    return next("You are not in a bubble!");
+  }
+  usersInBubble = await User.find({ bubble: bubbleId });
+
   console.log(usersInBubble);
 
   let usersRes = [] as any;
-  if (usersInBubble) {
-    usersInBubble.forEach((element) => {
-      let user = {
+  if (usersInBubble.length > 0) {
+    usersRes = usersInBubble.map((element) => {
+      return {
         name: element.name,
         lastTest: element.tests[element.tests.length - 1],
       };
-      usersRes.push(user);
     });
   } else {
-    return res.send("BRO AINT NO ONE IN THIS DAMN BUBBLE");
+    next("BRO AINT NO ONE IN THIS DAMN BUBBLE");
   }
-
   return res.send(usersRes);
-
-  // console.log(user);
-  // if (!user) {
-  //   next("Please refresh page");
-  //   return;
-  // }
-  // let idea = Bubble.find({ user: user }).exec(function (err, idd) {
-  //   if (err) {
-  //     next("Problem querying ideas. Please refresh page.");
-  //   }
-  //   return res.send(JSON.stringify(idd));
-  // });
 });
 
-bubbleRoutes.route("/create").get(async (req, res, next) => {
+bubbleRoutes.route("/create").post(async (req, res, next) => {
   console.log("HELLO TEST");
   const reqUser = req.user as IUser;
 
@@ -58,41 +48,45 @@ bubbleRoutes.route("/create").get(async (req, res, next) => {
   });
   await bubble.save();
   if (!user) {
-    return res.send("USER NOT FOUND");
+    next("USER NOT FOUND");
   } else {
-    user.bubbles.push(bubble);
-    console.log(user.bubbles);
+    user.bubble = bubble;
     await user.save();
 
-    return res.send(user.bubbles);
+    return res.send(user.bubble);
   }
 });
 
-bubbleRoutes.route("/leave/:id").post(async (req, res, next) => {
+bubbleRoutes.route("/pop").get(async (req, res, next) => {
+  console.log("hello");
   const reqUser = req.user as IUser;
   const user = await User.findById(reqUser._id);
+  if (!user) {
+    return next("User not found");
+  }
+  console.log(user);
+
+  user.bubble = undefined;
+  await user.save();
+  console.log(user);
+
+  return res.send({ error: false });
 
   // user.bubbles.pull({ code: req.params.id });
 });
-bubbleRoutes.route("/join/:id").get(async (req, res, next) => {
+bubbleRoutes.route("/join/:id").post(async (req, res, next) => {
   const reqUser = req.user as IUser;
   const groupId = req.params.id;
   const user = await User.findById(reqUser._id);
-
   console.log(reqUser);
   console.log(groupId);
   const bubble = await Bubble.findOne({ code: groupId });
   if (!bubble) {
-    return res.send({ error: true, msg: "no bubble foud" });
+    return next("no bubble foud");
   }
   if (!user) {
-    return res.send({ error: true, msg: "user not found" });
+    return next("user not found");
   }
-
-  user.bubbles.push(bubble);
+  user.bubble = bubble;
   await user.save();
-
-  //find bubble code in bubbles collection
-  //append bubble id to user bubbles list
-  //redirect to '/' and we should be gucci
 });

@@ -21,16 +21,16 @@ export function createNew<T extends RootDocument>(
   return new model(doc);
 }
 
-enum TestStatus {
+export enum TestStatus {
   NEGATIVE,
   POSITIVE,
   INPROGRESS,
   INCONCLUSIVE,
 }
 
-export interface ITest {
+export interface ITest extends RootDocument {
   date: Date;
-  status: TestStatus;
+  status: string;
 }
 
 export interface IBubble extends RootDocument {
@@ -43,18 +43,22 @@ export interface IUser extends RootDocument {
   email: string;
   name: string;
   token: string;
-  admin: boolean;
-  bubbles: IBubble[];
+  admin?: boolean;
+  bubble?: IBubble;
   tests: ITest[];
 }
 
-const TestSchema = new mongoose.Schema({
-  date: Date,
-  code: {
-    type: String,
-    enum: ["POSITIVE", "INPROGRESS", "INCONCLUSIVE"],
+const TestSchema = new mongoose.Schema(
+  {
+    date: Date,
+    status: {
+      type: String,
+    },
   },
-});
+  {
+    usePushEach: true,
+  }
+);
 
 export const User = mongoose.model<IUser & mongoose.Document>(
   "User",
@@ -79,13 +83,11 @@ export const User = mongoose.model<IUser & mongoose.Document>(
         type: Boolean,
         default: false,
       },
-      bubbles: [
-        {
-          type: mongoose.Types.ObjectId,
-          index: true,
-          ref: "Bubble",
-        },
-      ],
+      bubble: {
+        type: mongoose.Types.ObjectId,
+        index: true,
+        ref: "Bubble",
+      },
       tests: [TestSchema],
     },
     {
@@ -122,4 +124,17 @@ BubbleSchema.set("toJSON", {
 export const Bubble = mongoose.model<IBubble & mongoose.Document>(
   "Bubble",
   BubbleSchema
+);
+
+TestSchema.virtual("id").get(function (this: any) {
+  return this._id.toHexString();
+});
+
+TestSchema.set("toJSON", {
+  virtuals: true,
+});
+
+export const Test = mongoose.model<ITest & mongoose.Document>(
+  "Test",
+  TestSchema
 );

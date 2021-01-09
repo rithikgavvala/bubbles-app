@@ -27,6 +27,7 @@ process.on("unhandledRejection", (err) => {
 import { isAuthenticated } from "./auth/auth";
 import { authRoutes } from "./routes/auth";
 import { bubbleRoutes } from "./routes/bubble";
+import { testRoutes } from "./routes/test";
 
 app.get("/status", (req, res) => {
   res.status(200).send("Success");
@@ -34,14 +35,18 @@ app.get("/status", (req, res) => {
 
 // app.use("/",);
 app.use("/auth", authRoutes);
-app.use("/bubbles", isAuthenticated, bubbleRoutes);
-
+app.use("/bubble", isAuthenticated, bubbleRoutes);
+app.use("/test", isAuthenticated, testRoutes);
 app.use(
   isAuthenticated,
   express.static(path.join(__dirname, "../../client/build"))
 );
 app.get("*", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
+});
+
+app.use(function (err, req, res, next) {
+  res.status(500).send({ error: true, message: err });
 });
 
 app.listen(port, () => {
