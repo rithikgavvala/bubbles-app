@@ -1,6 +1,7 @@
 import express from "express";
 import { createNew, IUser, User, IBubble, Bubble } from "../schema";
-import { nanoid } from "nanoid";
+import { customAlphabet } from "nanoid";
+const nanoid = customAlphabet("1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ", 5);
 export let bubbleRoutes = express.Router();
 
 bubbleRoutes.route("/").get(async (req, res, next) => {
@@ -11,7 +12,6 @@ bubbleRoutes.route("/").get(async (req, res, next) => {
   } else {
     const bubbleId = user.bubbles[0];
     const usersInBubble = await User.find({ bubble: bubbleId });
-
     return res.send(usersInBubble);
   }
 
@@ -37,7 +37,7 @@ bubbleRoutes.route("/create").get(async (req, res, next) => {
   //logic to randomize here
   let bubble = createNew<IBubble>(Bubble, {
     name: "TEST_BUB",
-    code: nanoid(4),
+    code: nanoid(),
   });
 
   await bubble.save();
