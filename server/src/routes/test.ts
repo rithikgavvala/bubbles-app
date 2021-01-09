@@ -36,8 +36,15 @@ testRoutes.route('/update/:status').get(async (req,res, next) => {
     const reqUser = req.user as IUser;
     const user = await User.findById(reqUser._id);
     if(user){
-        let userTest = user.tests[user.tests.length - 1]
-        console.log(userTest)
+        let userTest = user.tests.pop()
+        if(userTest){
+            userTest.status = req.params.status
+        }
+        user.tests.push(userTest as ITest);
+
+        console.log(user.tests)
+        // userTest.status = req.params.status;
+        
 
         return res.send("found test")
 
