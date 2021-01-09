@@ -55,8 +55,20 @@ bubbleRoutes.route("/create").get(async (req, res, next) => {
 bubbleRoutes.route("/join/:id").get(async (req, res, next) => {
   const reqUser = req.user as IUser;
   const groupId = req.params.id;
+  const user = await User.findById(reqUser._id);
+
   console.log(reqUser);
   console.log(groupId);
+  const bubble = await Bubble.findOne({ code: groupId });
+  if (!bubble) {
+    return res.send({ error: true, msg: "no bubble foud" });
+  }
+  if (!user) {
+    return res.send({ error: true, msg: "user not found" });
+  }
+
+  user.bubbles.push(bubble);
+  await user.save();
   //find bubble code in bubbles collection
   //append bubble id to user bubbles list
   //redirect to '/' and we should be gucci
