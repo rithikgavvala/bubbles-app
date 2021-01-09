@@ -27,6 +27,7 @@ process.on("unhandledRejection", (err) => {
 import { isAuthenticated } from "./auth/auth";
 import { authRoutes } from "./routes/auth";
 import { bubbleRoutes } from "./routes/bubble";
+import { userRoutes } from "./routes/user";
 import { testRoutes } from "./routes/test";
 
 app.get("/status", (req, res) => {
@@ -36,6 +37,7 @@ app.get("/status", (req, res) => {
 // app.use("/",);
 app.use("/auth", authRoutes);
 app.use("/bubble", isAuthenticated, bubbleRoutes);
+app.use("/user", isAuthenticated, userRoutes);
 app.use("/test", isAuthenticated, testRoutes);
 app.use(
   isAuthenticated,

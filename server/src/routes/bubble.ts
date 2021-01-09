@@ -74,7 +74,7 @@ bubbleRoutes.route("/pop").get(async (req, res, next) => {
 
   // user.bubbles.pull({ code: req.params.id });
 });
-bubbleRoutes.route("/join/:id").post(async (req, res, next) => {
+bubbleRoutes.route("/join/:id").get(async (req, res, next) => {
   const reqUser = req.user as IUser;
   const groupId = req.params.id;
   const user = await User.findById(reqUser._id);
@@ -89,4 +89,5 @@ bubbleRoutes.route("/join/:id").post(async (req, res, next) => {
   }
   user.bubble = bubble;
   await user.save();
+  return res.send({ error: false });
 });
