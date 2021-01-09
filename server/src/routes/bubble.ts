@@ -39,6 +39,9 @@ bubbleRoutes.route("/create").get(async (req, res, next) => {
     name: "TEST_BUB",
     code: nanoid(4),
   });
+
+  await bubble.save();
+
   if (!user) {
     return res.send("USER NOT FOUND");
   } else {
