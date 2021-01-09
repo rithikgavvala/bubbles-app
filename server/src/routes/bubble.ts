@@ -11,7 +11,7 @@ bubbleRoutes.route("/").get(async (req, res, next) => {
     return res.send("ERROR USER NOT FOUND");
   } else {
     const bubbleId = user.bubbles[0];
-    const usersInBubble = await User.find({ bubble: bubbleId });
+    const usersInBubble = await User.find({ bubbles: bubbleId });
     return res.send(usersInBubble);
   }
 
@@ -43,15 +43,20 @@ bubbleRoutes.route("/create").get(async (req, res, next) => {
   if (!user) {
     return res.send("USER NOT FOUND");
   } else {
-      user.bubbles.push(bubble);
-      console.log(user.bubbles);
-      await user.save();
+    user.bubbles.push(bubble);
+    console.log(user.bubbles);
+    await user.save();
 
-      return res.send(user.bubbles);
-  
+    return res.send(user.bubbles);
   }
 });
 
+bubbleRoutes.route("/leave/:id").post(async (req, res, next) => {
+  const reqUser = req.user as IUser;
+  const user = await User.findById(reqUser._id);
+
+  // user.bubbles.pull({ code: req.params.id });
+});
 bubbleRoutes.route("/join/:id").get(async (req, res, next) => {
   const reqUser = req.user as IUser;
   const groupId = req.params.id;

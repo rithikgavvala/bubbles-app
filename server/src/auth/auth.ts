@@ -69,7 +69,7 @@ var strategy = new Auth0Strategy(
       }
 
       if (user) {
-        done(null, profile);
+        done(null, user);
       } else {
         var newUser = new User();
         newUser.email = profile.emails[0].value;
@@ -91,8 +91,7 @@ var strategy = new Auth0Strategy(
 passport.use(strategy);
 passport.serializeUser((user, done) => {
   console.log(user);
-  console.log("hiiii", user.user_id);
-  done(null, user.user_id);
+  done(null, user.uuid);
 });
 passport.deserializeUser((uuid, done) => {
   console.log(uuid);
