@@ -69,6 +69,7 @@ bubbleRoutes.route("/join/:id").get(async (req, res, next) => {
 
   user.bubbles.push(bubble);
   await user.save();
+
   //find bubble code in bubbles collection
   //append bubble id to user bubbles list
   //redirect to '/' and we should be gucci
