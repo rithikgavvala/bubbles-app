@@ -21,16 +21,16 @@ export function createNew<T extends RootDocument>(
   return new model(doc);
 }
 
-enum TestStatus {
+export enum TestStatus {
   NEGATIVE,
   POSITIVE,
   INPROGRESS,
   INCONCLUSIVE,
 }
 
-export interface ITest {
+export interface ITest extends RootDocument {
   date: Date;
-  status: TestStatus;
+  status: string;
 }
 
 export interface IBubble extends RootDocument {
@@ -50,10 +50,14 @@ export interface IUser extends RootDocument {
 
 const TestSchema = new mongoose.Schema({
   date: Date,
-  code: {
+  status: {
     type: String,
-    enum: ["POSITIVE", "INPROGRESS", "INCONCLUSIVE"],
+    
   },
+  
+},   
+{
+  usePushEach: true,
 });
 
 export const User = mongoose.model<IUser & mongoose.Document>(
@@ -122,4 +126,18 @@ BubbleSchema.set("toJSON", {
 export const Bubble = mongoose.model<IBubble & mongoose.Document>(
   "Bubble",
   BubbleSchema
+);
+
+
+TestSchema.virtual("id").get(function (this: any) {
+  return this._id.toHexString();
+});
+
+TestSchema.set("toJSON", {
+  virtuals: true,
+});
+
+export const Test = mongoose.model<ITest & mongoose.Document>(
+  "Test",
+  TestSchema
 );

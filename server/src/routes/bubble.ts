@@ -38,19 +38,6 @@ bubbleRoutes.route("/").get(async (req, res, next) => {
 
   return res.send(usersRes);
 
-  
-
-  // console.log(user);
-  // if (!user) {
-  //   next("Please refresh page");
-  //   return;
-  // }
-  // let idea = Bubble.find({ user: user }).exec(function (err, idd) {
-  //   if (err) {
-  //     next("Problem querying ideas. Please refresh page.");
-  //   }
-  //   return res.send(JSON.stringify(idd));
-  // });
 });
 
 bubbleRoutes.route("/create").get(async (req, res, next) => {
@@ -94,8 +81,4 @@ bubbleRoutes.route("/join/:id").get(async (req, res, next) => {
 
   user.bubbles.push(bubble);
   await user.save();
-
-  //find bubble code in bubbles collection
-  //append bubble id to user bubbles list
-  //redirect to '/' and we should be gucci
 });
