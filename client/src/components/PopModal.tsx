@@ -14,11 +14,14 @@ import {
 } from '@chakra-ui/react';
 
 const popUserBubble = async (): Promise<any> => {
+    console.log("TESTTTTT");
     try {
         const resp = await axios.get('/bubble/pop');
-
+        console.log("RESPONSE", resp);
         return resp.data.error
     }catch (e: any){
+        console.log("FAIL");
+
         if(e.response) {
             throw new Error(e.response.data.message);
 
@@ -38,10 +41,13 @@ const PopModal: React.FC<ModalProps> = (props: ModalProps) => {
     const history = useHistory();
     const toast = useToast();
     const handlePopClick = async () => {
+        console.log("CLICK")
         try {
+            console.log("TRY CLICK")
             const val = await popUserBubble()
             console.log("VAL TEST", val);
             if(!val){
+                console.log("IN TOAST")
                 toast({
                     title: 'Bye!',
                     description: 'You have popped the bubble!',
@@ -49,8 +55,11 @@ const PopModal: React.FC<ModalProps> = (props: ModalProps) => {
                     duration: 5000,
                     isClosable: true,
                   });
+                history.push('/group');
+
+            }else{
+                console.log("OUT TOAST")
             }
-            history.push('/group');
             
     
         }catch(e) {
