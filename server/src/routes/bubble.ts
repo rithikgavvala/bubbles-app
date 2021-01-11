@@ -57,12 +57,12 @@ bubbleRoutes.route("/create").post(async (req, res, next) => {
   }
 });
 
-bubbleRoutes.route("/pop").get(async (req, res, next) => {
+bubbleRoutes.route("/pop").post(async (req, res, next) => {
   console.log("hello");
   const reqUser = req.user as IUser;
   const user = await User.findById(reqUser._id);
   if (!user) {
-    return res.send({error: true});
+    return next("User not found");
   }
   console.log(user);
 
@@ -74,7 +74,7 @@ bubbleRoutes.route("/pop").get(async (req, res, next) => {
 
   // user.bubbles.pull({ code: req.params.id });
 });
-bubbleRoutes.route("/join/:id").get(async (req, res, next) => {
+bubbleRoutes.route("/join/:id").post(async (req, res, next) => {
   const reqUser = req.user as IUser;
   const groupId = req.params.id;
   const user = await User.findById(reqUser._id);

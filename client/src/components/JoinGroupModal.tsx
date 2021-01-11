@@ -13,8 +13,7 @@ import {
   FormLabel,
   Button,
   Input,
-  useToast
-  
+  useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
 
@@ -29,22 +28,20 @@ function delay(ms: number) {
 
 const joinGroup = async (id: string): Promise<any> => {
   try {
-    const resp = await axios.get('/bubble/join/' + id)
+    const resp = await axios.post('/bubble/join/' + id);
     return resp.data;
-  }catch (e: any){
-    if(e.response){
+  } catch (e: any) {
+    if (e.response) {
       throw new Error(e.response.data.message);
-    }else{
+    } else {
       throw new Error('Cannot add to group!');
     }
   }
-
-}
-
+};
 
 const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [code, setCode] = useState<string>("");
+  const [code, setCode] = useState<string>('');
   const toast = useToast();
 
   const history = useHistory();
@@ -66,8 +63,6 @@ const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
         duration: 5000,
         isClosable: true,
       });
-      
-
     } catch (e) {
       console.log(e);
       toast({
@@ -78,14 +73,13 @@ const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
         isClosable: true,
       });
     }
-    history.push("/");
+    history.push('/');
     setLoading(false);
   };
 
   const onCodeChange = (event: React.FormEvent<HTMLInputElement>) => {
     setCode(event.currentTarget.value);
-  }
-
+  };
 
   return (
     <Modal isOpen={props.open} onClose={props.closeModal}>
@@ -93,7 +87,7 @@ const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
       <ModalContent>
         <ModalHeader>Group Code:</ModalHeader>
         <ModalCloseButton />
-          <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <ModalBody>
             <FormControl>
               <FormLabel>Type your 5-digit group code:</FormLabel>
@@ -101,11 +95,12 @@ const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" isLoading={loading}>Join</Button>
+            <Button type="submit" isLoading={loading}>
+              Join
+            </Button>
             <Button onClick={props.closeModal}>Cancel</Button>
           </ModalFooter>
-          </form>
-        
+        </form>
       </ModalContent>
     </Modal>
   );
