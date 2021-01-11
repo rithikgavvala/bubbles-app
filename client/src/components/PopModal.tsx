@@ -9,6 +9,7 @@ import {
   ModalOverlay,
   ModalCloseButton,
   Button,
+  HStack,
   useToast,
 } from '@chakra-ui/react';
 
@@ -72,10 +73,13 @@ const PopModal: React.FC<ModalProps> = (props: ModalProps) => {
         <ModalCloseButton />
         <form onSubmit={handlePopClick}>
           <ModalFooter>
-            <Button type="submit" bg="tomato">
-              Pop
-            </Button>
-            <Button onClick={props.closeModal}>Nard</Button>
+          
+            <HStack spacing="1em">
+              <Button onClick={props.closeModal}>Nard</Button>
+              <Button color="white" type="submit" bg="#FEB2B2">
+                Pop!
+              </Button>
+            </HStack>
           </ModalFooter>
         </form>
       </ModalContent>

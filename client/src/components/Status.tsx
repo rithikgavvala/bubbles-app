@@ -56,8 +56,8 @@ const Header: React.FC<Props> = (props: Props) => {
         <Heading as="h1" letterSpacing={'-.05rem'}>
           Status
         </Heading>
-        <Tag w={'6em'} size={'md'} borderRadius="full" variant="solid" bg={status.color} alignItems="center">
-          <TagLabel>{status.message}</TagLabel>
+        <Tag align="center" w={'6em'} size={'md'} borderRadius="full" variant="solid" bg={status.color} alignItems="center">
+          <TagLabel marginLeft="auto" marginRight="auto" align="center">{status.message}</TagLabel>
         </Tag>
         <Text> {status.feedback} </Text>
       </VStack>

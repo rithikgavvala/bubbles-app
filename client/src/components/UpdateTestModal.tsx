@@ -14,6 +14,7 @@ import {
   FormLabel,
   Button,
   Select,
+  HStack,
   useToast,
 } from '@chakra-ui/react';
 
@@ -99,10 +100,12 @@ const UpdateTestModal: React.FC<ModalProps> = (props: ModalProps) => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={props.closeModal}>Cancel</Button>
-            <Button type="submit" bg="tomato">
-              Save
-            </Button>
+          <HStack spacing="1em">
+              <Button onClick={props.closeModal}>Nard</Button>
+              <Button color="white" type="submit" bg="#3182CE">
+                Save
+              </Button>
+            </HStack>
           </ModalFooter>
         </form>
       </ModalContent>

@@ -100,7 +100,7 @@ const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
               <Button type="submit" isLoading={loading}>
                 Create
               </Button>
-              <Button onClick={props.closeModal}>Cancel</Button>
+              <Button onClick={props.closeModal}>Nard</Button>
             </HStack>
           </ModalFooter>
         </form>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Profile } from './ParentContainer';
 // components
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Tag, Box, Flex, Heading } from '@chakra-ui/react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -20,11 +20,19 @@ const getCurrUser = async (): Promise<Profile> => {
 
 const Header: React.FC = () => {
   const [name, setName] = useState<string>('');
+
+  
   useEffect(() => {
     const getProfile = async () => {
       try {
         const profile: Profile = await getCurrUser();
-        setName(profile.name as string);
+        if(profile.name){
+          const nameArr = profile.name.split(" ")
+          const initials = nameArr[0].charAt(0) + nameArr[nameArr.length - 1].charAt(0) + ""
+          setName(initials as string);
+          
+        }
+
       } catch (e) {}
     };
     getProfile();
@@ -48,7 +56,10 @@ const Header: React.FC = () => {
         </Link>
       </Flex>
       <Box display={{ base: 'block' }}>
-        <Text fontSize="3xl">{name}</Text>
+        <Tag
+        height="2rem"
+        borderRadius="100%"
+       >{name}</Tag>
       </Box>
     </Flex>
   );
