@@ -1,6 +1,9 @@
 {
     "name": "bubble-app",
     "version": "1.0.0",
+    "engines": {
+      "node": "12.x"
+    },
     "description": "Onboarding starter project",
     "main": "server/app.ts",
     "scripts": {
@@ -8,8 +11,8 @@
       "build:client": "cd client && yarn install && yarn build",
       "build": "yarn build:client && yarn build:server"
     },
-    "repository": "https://github.com/HackGT/projectideas-onboarding2020.git",
-    "author": "Rahul Rajan <rahul.rajan@hack.gt>",
+    "repository": "https://github.com/HackGT/bubbles-us.git",
+    "author": "Rahul Rajan <rahul.rajanus@gmail.com>",
     "license": "MIT"
   }
   
