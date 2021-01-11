@@ -48,7 +48,7 @@ const PopModal: React.FC<ModalProps> = (props: ModalProps) => {
           duration: 5000,
           isClosable: true,
         });
-        history.push('/group');
+        history.push('/join');
       } else {
         console.log('OUT TOAST');
       }

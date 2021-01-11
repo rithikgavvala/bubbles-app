@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
-import PopModal from './PopModal';
-import { Button } from '@chakra-ui/react';
+import AddTestModal from './AddTestModal';
+import { Box, Button } from '@chakra-ui/react';
 
 const AddTestButton: React.FC = () => {
-  const [isPopModalOpen, setPopModalOpen] = useState<boolean>(false);
+  const [isAddModalOpen, setAddModalOpen] = useState<boolean>(false);
 
-  const onOpenPop = () => {
-    setPopModalOpen(true);
+  const onAddOpen = () => {
+    setAddModalOpen(true);
   };
 
   return (
     <>
-      <Button bg="#FEB2B2" height="4rem" onClick={onOpenPop} borderRadius="100%" color="white">
-        Pop!
+    <Box
+      paddingLeft="1.5rem"
+      paddingRight="1.5rem"
+    >
+    <Button size="lg" bg="#3182CE" paddingRight="1.5rem" width="100%" borderRadius="8px" onClick={onAddOpen}  color="white">
+        Add Test
       </Button>
-      <PopModal open={isPopModalOpen} closeModal={() => setPopModalOpen(false)} />
+      <AddTestModal open={isAddModalOpen} closeModal={() => setAddModalOpen(false)} />
+    </Box>
+   
     </>
   );
 };

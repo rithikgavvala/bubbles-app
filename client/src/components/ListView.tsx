@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Tabs, Tab,  Box, TabPanels, TabPanel, TabList } from '@chakra-ui/react';
 import {User} from './ParentContainer';
 
 type Props = {
@@ -35,11 +35,39 @@ const ListView : React.FC<Props> = (props: Props) => {
             <Box
         borderRadius="2px" 
 
-        boxShadow="0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)"
+        // boxShadow="0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)"
         bg="#FFFFFF"
         margin="1rem"
     >
-        {userRows}
+        <Tabs>
+            <TabList>
+                <Tab>
+                    Good
+                </Tab>
+                <Tab>
+                    Pending
+                </Tab>
+                <Tab>
+                    Untested
+                </Tab>
+                <Tab>
+                    Positive
+                </Tab>
+            </TabList>
+            <TabPanels>
+                <TabPanel>
+                {userRows}
+                </TabPanel>
+                <TabPanel>
+                <p>two!</p>
+                </TabPanel>
+                <TabPanel>
+                <p>three!</p>
+                </TabPanel>
+             </TabPanels>
+
+
+        </Tabs>
     </Box>    
         </>
 
