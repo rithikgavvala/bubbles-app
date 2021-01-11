@@ -25,13 +25,24 @@ bubbleRoutes.route("/").get(async (req, res, next) => {
   let usersRes = [] as any;
 
   usersRes = usersInBubble.map((element) => {
-    return {
-      name: element.name,
-      tests: element.tests,
-    };
-  });
+    if(element.name == user.name){
+      console.log("found")
+    }else{
+      return {
+        name: element.name,
+        tests: element.tests,
+      };
+    }
+    
 
-  return res.send(usersRes);
+  });
+  if(usersRes.length == 0){
+    console.log("NO USERS")
+    return res.send({data: []})
+  }else{
+    return res.send({data: usersRes});
+    
+  }
 });
 
 bubbleRoutes.route("/create").post(async (req, res, next) => {

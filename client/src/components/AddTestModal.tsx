@@ -1,5 +1,8 @@
 import React, { useState} from 'react';
 import axios from 'axios';
+import {Profile, Test}  from './ParentContainer'
+import { TestStatus } from '../types';
+
 import {
   Modal,
   ModalHeader,
@@ -43,6 +46,8 @@ const getDateStrings = () => {
 
 type ModalProps = {
   open: boolean;
+  profile: Profile
+  handleProfileChange: (profile : Profile) => void
   closeModal: () => void;
 };
 
@@ -75,7 +80,23 @@ const AddModal: React.FC<ModalProps> = (props: ModalProps) => {
     
     try {
       await addTest({ testDate: userDate, userTestStatus: userTestStatus});
-      
+
+      let tempTests: Test[] = []
+      if(props.profile.tests){
+        tempTests = props.profile.tests
+      }
+
+      const tempTest: Test = {date: userDate, status: userTestStatus as TestStatus}
+
+      tempTests.push(tempTest)
+      const newProfile: Profile = {
+        name: props.profile.name as string,
+        bubbleCode: props.profile.bubbleCode as string,
+        tests: tempTests
+      }
+
+      props.handleProfileChange(newProfile);
+
       toast({
         title: 'Success!',
         description: 'You have added your test!',
@@ -84,7 +105,7 @@ const AddModal: React.FC<ModalProps> = (props: ModalProps) => {
         isClosable: true,
       });
 
-      
+
       props.closeModal()
       
     } catch (e) {

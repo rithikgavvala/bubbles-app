@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 import AddTestModal from './AddTestModal';
 import { Box, Button } from '@chakra-ui/react';
+import {Profile}  from './ParentContainer'
 
-const AddTestButton: React.FC = () => {
+
+type Props = {
+  profile: Profile
+  handleProfileChange: (profile : Profile) => void
+};
+
+const AddTestButton: React.FC<Props> = (props: Props) => {
   const [isAddModalOpen, setAddModalOpen] = useState<boolean>(false);
 
   const onAddOpen = () => {
@@ -18,7 +25,7 @@ const AddTestButton: React.FC = () => {
     <Button size="lg" bg="#3182CE" paddingRight="1.5rem" width="100%" borderRadius="8px" onClick={onAddOpen}  color="white">
         Add Test
       </Button>
-      <AddTestModal open={isAddModalOpen} closeModal={() => setAddModalOpen(false)} />
+      <AddTestModal profile={props.profile} handleProfileChange={props.handleProfileChange} open={isAddModalOpen} closeModal={() => setAddModalOpen(false)} />
     </Box>
    
     </>

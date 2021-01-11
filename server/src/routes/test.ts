@@ -37,9 +37,10 @@ testRoutes.route("/update/:status").get(async (req, res, next) => {
     }
     user.tests.push(userTest as ITest);
 
+    await user.save()
     console.log(user.tests);
     // userTest.status = req.params.status;
-    return res.send("found test");
+    return res.send({data: user.tests});
   }
-  return res.send("not found test");
+  return res.send({data: null});
 });
