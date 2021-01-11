@@ -34,7 +34,7 @@ const addTest = async (data: any): Promise<any> => {
 
 const getDateStrings = () => {
   const selectDateStrings: string[] = [];
-  for (let i = 7; i > 0; i--) {
+  for (let i = 6; i >= 0; i--) {
     const prevDate = moment().subtract(i, 'days');
     const prevFormatDate = prevDate.format('dddd, MMMM Do');
     selectDateStrings.push(prevFormatDate);
