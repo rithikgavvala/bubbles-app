@@ -55,17 +55,13 @@ const ParentContainer: React.FC = () => {
   const history = useHistory();
 
   const handleProfileChange = (profile: Profile) => {
-    console.log("PROP", profile)
+    console.log('PROP', profile);
     setProfile(profile);
-
-  }
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
       const fetchedUsers = await getUsers();
-      if(fetchedUsers.data = [null]){
-        fetchedUsers.data = [];
-      }
       console.log('TEST', fetchedUsers);
       setUsers(fetchedUsers.data);
     };
@@ -96,24 +92,16 @@ const ParentContainer: React.FC = () => {
     fetchAllData();
   }, []);
 
-  console.log(users);
+  console.log('USERS', users);
 
   return !loading ? (
     <>
       <Box minH="100%">
         {console.log(users)}
         <StatusContainer user={profile} />
-        <ListView users={users}  
-
-        bubbleCode={profile ? profile.bubbleCode : 'NA'} />
+        <ListView users={users} bubbleCode={profile ? profile.bubbleCode : 'NA'} />
       </Box>
-      <Footer
-      
-        profile={profile} 
-        handleProfileChange={handleProfileChange}
-
-
-      />
+      <Footer profile={profile} handleProfileChange={handleProfileChange} />
     </>
   ) : (
     <>
