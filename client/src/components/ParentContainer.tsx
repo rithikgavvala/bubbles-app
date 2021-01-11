@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import StatusContainer from './StatusContainer';
+import { TestStatus } from '../types';
 import ListView from './ListView';
 import { Box } from '@chakra-ui/react';
 import axios from 'axios';
@@ -7,18 +8,16 @@ import { useHistory } from 'react-router-dom';
 
 export type Test = {
   date: Date;
-  status: string;
+  status: TestStatus;
 };
 
 export type User = {
-  name: string;
-  lastTest: Test;
+  name?: string;
+  tests: Test[];
 };
 
-export type Profile = {
-  name: string;
-  bubbleCode: string;
-  test: Test;
+export type Profile = User & {
+  bubbleCode?: string;
 };
 
 const getUsers = async (): Promise<any> => {
@@ -35,7 +34,7 @@ const getUsers = async (): Promise<any> => {
   }
 };
 
-const getCurrUser = async (): Promise<any> => {
+const getCurrUser = async (): Promise<Profile> => {
   try {
     const currProfile = await axios.get('/user');
     return currProfile.data;
@@ -50,7 +49,7 @@ const getCurrUser = async (): Promise<any> => {
 
 const ParentContainer: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [profile, setProfile] = useState<Profile>();
+  const [profile, setProfile] = useState<Profile>({});
   const [loading, setLoading] = useState<boolean>(true);
   const history = useHistory();
 
@@ -88,14 +87,13 @@ const ParentContainer: React.FC = () => {
     <>
       <Box minH="100%">
         {console.log(users)}
-
-        <StatusContainer />
+        <StatusContainer user={profile} />
         <ListView users={users} bubbleCode={profile ? profile.bubbleCode : 'NA'} />
       </Box>
     </>
   ) : (
     <>
-      <StatusContainer />
+      <StatusContainer user={profile} />
       <Box paddingLeft="1.5rem" fontWeight="300">
         Currently loading data...
       </Box>

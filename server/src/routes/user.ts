@@ -14,13 +14,13 @@ userRoutes.route("/").get(async (req, res, next) => {
       if (!user) {
         return next("ERR USER NOT FOUND");
       }
-        // if(!user.bubble) {
-        //     res.redirect('/join');
-        // }
+      // if(!user.bubble) {
+      //     res.redirect('/join');
+      // }
       return res.send({
         name: user.name,
         bubbleCode: user.bubble ? user.bubble.code : null,
-        test: user.tests.length > 0 ? user.tests[user.tests.length - 1] : null,
+        test: user.tests,
       });
     });
   //   if (!user) {

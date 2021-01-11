@@ -1,14 +1,18 @@
 import React from 'react';
 import Status from './Status';
 import PopButton from './PopButton';
-
+import { Profile } from './ParentContainer';
 import { HStack, Box } from '@chakra-ui/react';
 
-const StatusContainer: React.FC = () => {
+type Props = {
+  user: Profile;
+};
+
+const StatusContainer: React.FC<Props> = (props: Props) => {
   return (
     <HStack spacing="">
       <Box w="75%">
-        <Status />
+        <Status user={props.user} />
       </Box>
       <Box w="25%">
         <PopButton />

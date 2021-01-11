@@ -17,21 +17,20 @@ bubbleRoutes.route("/").get(async (req, res, next) => {
   if (!bubbleId) {
     return next("You are not in a bubble!");
   }
+
   usersInBubble = await User.find({ bubble: bubbleId });
 
   console.log(usersInBubble);
 
   let usersRes = [] as any;
-  if (usersInBubble.length > 0) {
-    usersRes = usersInBubble.map((element) => {
-      return {
-        name: element.name,
-        lastTest: element.tests[element.tests.length - 1],
-      };
-    });
-  } else {
-    next("BRO AINT NO ONE IN THIS DAMN BUBBLE");
-  }
+
+  usersRes = usersInBubble.map((element) => {
+    return {
+      name: element.name,
+      tests: element.tests,
+    };
+  });
+
   return res.send(usersRes);
 });
 
