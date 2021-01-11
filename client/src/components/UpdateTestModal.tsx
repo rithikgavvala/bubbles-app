@@ -27,7 +27,8 @@ type ModalProps = {
 
 const updateTest = async (status: string): Promise<any> => {
   try {
-    await axios.get('/test/update/' + status);
+		const updateTests = await axios.get('/test/update/' + status);
+		return updateTests.data; 
   } catch (e: any) {
     if (e.response) {
       throw new Error(e.response.data.message);
@@ -52,12 +53,15 @@ const UpdateTestModal: React.FC<ModalProps> = (props: ModalProps) => {
 
     try {
       const userTestsUpdated = await updateTest(userTestStatus);
-
+			console.log("RESP FOR TEST", userTestsUpdated.data)
+    
       const newProfile: Profile = {
         name: props.profile.name,
         bubbleCode: props.profile.bubbleCode,
-        tests: userTestsUpdated,
-      };
+        tests: userTestsUpdated.data,
+			};
+			
+			console.log("NEW PROF", newProfile);
 
       props.handleProfileChange(newProfile);
 

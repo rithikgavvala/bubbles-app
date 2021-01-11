@@ -10,7 +10,8 @@ import moment from 'moment';
 
 */
 const getStatusFromTests = (tests: Test[]): UserStatus => {
-  console.log(tests);
+  console.log("STATISTICS", tests);
+
   const now = moment();
   if (!tests || tests.length == 0) {
     return UserStatus.UNTESTED;

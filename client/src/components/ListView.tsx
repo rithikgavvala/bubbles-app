@@ -61,10 +61,38 @@ const ListView: React.FC<Props> = (props: Props) => {
             <Tab>Positive</Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>{good}</TabPanel>
-            <TabPanel>{pending}</TabPanel>
-            <TabPanel>{untested}</TabPanel>
-            <TabPanel>{positive}</TabPanel>
+            <TabPanel>{good &&       <Box
+        color="black"
+        paddingLeft="1.5rem"
+        paddingTop="0.25rem"
+        paddingBottom="0.25rem"
+      >
+        No users
+      </Box>}</TabPanel>
+            <TabPanel>{pending &&       <Box
+        color="black"
+        paddingLeft="1.5rem"
+        paddingTop="0.25rem"
+        paddingBottom="0.25rem"
+      >
+        No users
+      </Box>}</TabPanel>
+            <TabPanel>{untested &&       <Box
+        color="black"
+        paddingLeft="1.5rem"
+        paddingTop="0.25rem"
+        paddingBottom="0.25rem"
+      >
+        No users
+      </Box>}</TabPanel>
+            <TabPanel>{positive &&       <Box
+        color="black"
+        paddingLeft="1.5rem"
+        paddingTop="0.25rem"
+        paddingBottom="0.25rem"
+      >
+        No users
+      </Box>}</TabPanel>
           </TabPanels>
         </Tabs>
       </Box>

@@ -45,8 +45,9 @@ const mapStatusToTag = (status: UserStatus): Status => {
   };
 };
 
-const Header: React.FC<Props> = (props: Props) => {
-  console.log(props.user);
+const Status: React.FC<Props> = (props: Props) => {
+  console.log("STATUS PROPS", props.user);
+  console.log("STATUS PROPS TESTS", props.user.tests);
 
   const status = mapStatusToTag(getStatusFromTests(props.user.tests as Test[]));
 
@@ -65,4 +66,4 @@ const Header: React.FC<Props> = (props: Props) => {
   );
 };
 
-export default Header;
+export default Status;
