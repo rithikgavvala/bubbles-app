@@ -14,7 +14,7 @@ export type Test = {
 
 export type User = {
   name?: string;
-  tests: Test[];
+  tests?: Test[];
 };
 
 export type Profile = User & {
@@ -91,7 +91,7 @@ const ParentContainer: React.FC = () => {
         <StatusContainer user={profile} />
         <ListView users={users} bubbleCode={profile ? profile.bubbleCode : 'NA'} />
       </Box>
-      <Footer/>
+      <Footer />
     </>
   ) : (
     <>

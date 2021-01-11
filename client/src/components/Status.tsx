@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Profile } from './ParentContainer';
+import { Profile, Test } from './ParentContainer';
 import { getStatusFromTests } from '../utils/getStatusFromDate';
 import { UserStatus } from '../types';
 // components
@@ -54,7 +54,8 @@ const Header: React.FC<Props> = (props: Props) => {
   console.log(props.user);
 
   useEffect(() => {
-    const status: UserStatus = getStatusFromTests(props.user.tests);
+    const status: UserStatus = getStatusFromTests(props.user.tests as Test[]);
+    console.log(status);
     setStatus(mapStatusToTag(status));
   }, []);
 

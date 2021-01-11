@@ -4,7 +4,7 @@ import { User } from './ParentContainer';
 
 type Props = {
   users: User[];
-  bubbleCode: string;
+  bubbleCode?: string;
 };
 
 const ListView: React.FC<Props> = (props: Props) => {

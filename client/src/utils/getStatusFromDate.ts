@@ -10,10 +10,15 @@ import moment from 'moment';
 
 */
 const getStatusFromTests = (tests: Test[]): UserStatus => {
+  console.log(tests);
   const now = moment();
-
+  if (!tests) {
+    return UserStatus.UNTESTED;
+  }
   //   const diff = now.diff(testDate, 'days');
+  console.log('biii', tests[tests.length - 1].status);
   if (tests[tests.length - 1].status == TestStatus.POSITIVE) {
+    console.log('possitive ass biitch');
     return UserStatus.POSITIVE;
   }
 
