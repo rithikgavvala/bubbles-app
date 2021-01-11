@@ -13,8 +13,8 @@ import {
   FormLabel,
   Button,
   Input,
-  useToast
-  
+  useToast,
+  HStack,
 } from '@chakra-ui/react';
 import axios from 'axios';
 
@@ -29,22 +29,20 @@ function delay(ms: number) {
 
 const createGroup = async (bubbleName: string): Promise<any> => {
   try {
-    const resp = await axios.post('/bubble/create', {name: bubbleName})
+    const resp = await axios.post('/bubble/create', { name: bubbleName });
     return resp.data;
-  }catch (e: any){
-    if(e.response){
+  } catch (e: any) {
+    if (e.response) {
       throw new Error(e.response.data.message);
-    }else{
+    } else {
       throw new Error('Cannot add to group!');
     }
   }
-
-}
-
+};
 
 const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>('');
   const toast = useToast();
 
   const history = useHistory();
@@ -66,8 +64,6 @@ const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
         duration: 5000,
         isClosable: true,
       });
-      
-
     } catch (e) {
       console.log(e);
       toast({
@@ -78,14 +74,13 @@ const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
         isClosable: true,
       });
     }
-    history.push("/");
+    history.push('/');
     setLoading(false);
   };
 
   const onNameChange = (event: React.FormEvent<HTMLInputElement>) => {
     setName(event.currentTarget.value);
-  }
-
+  };
 
   return (
     <Modal isOpen={props.open} onClose={props.closeModal}>
@@ -93,7 +88,7 @@ const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
       <ModalContent>
         <ModalHeader>Group Name:</ModalHeader>
         <ModalCloseButton />
-          <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <ModalBody>
             <FormControl>
               <FormLabel>Type your group name:</FormLabel>
@@ -101,11 +96,14 @@ const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" isLoading={loading}>Create</Button>
-            <Button onClick={props.closeModal}>Cancel</Button>
+            <HStack spacing="1em">
+              <Button type="submit" isLoading={loading}>
+                Create
+              </Button>
+              <Button onClick={props.closeModal}>Cancel</Button>
+            </HStack>
           </ModalFooter>
-          </form>
-        
+        </form>
       </ModalContent>
     </Modal>
   );

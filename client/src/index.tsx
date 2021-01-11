@@ -11,8 +11,9 @@ import Header from './components/Header';
 const routing = (
   <React.StrictMode>
     <ChakraProvider>
-      <Header />
       <Router>
+        <Header />
+
         <Switch>
           <Route exact path="/" component={ParentContainer} />
           <Route exact path="/join" component={GroupPage} />

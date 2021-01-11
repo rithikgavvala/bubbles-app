@@ -3,6 +3,7 @@ import { Profile } from './ParentContainer';
 // components
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const getCurrUser = async (): Promise<Profile> => {
   try {
@@ -40,9 +41,11 @@ const Header: React.FC = () => {
       height="100%"
     >
       <Flex align="center" mr={5} height="100%">
-        <Heading as="h1" letterSpacing={'-.05rem'}>
-          Bubbles
-        </Heading>
+        <Link to="/">
+          <Heading as="h1" letterSpacing={'-.05rem'}>
+            Bubbles
+          </Heading>
+        </Link>
       </Flex>
       <Box display={{ base: 'block' }}>
         <Text fontSize="3xl">{name}</Text>

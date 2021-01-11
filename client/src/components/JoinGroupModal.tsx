@@ -14,6 +14,7 @@ import {
   Button,
   Input,
   useToast,
+  HStack,
 } from '@chakra-ui/react';
 import axios from 'axios';
 
@@ -83,11 +84,12 @@ const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
 
   return (
     <Modal isOpen={props.open} onClose={props.closeModal}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Group Code:</ModalHeader>
-        <ModalCloseButton />
-        <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Group Code:</ModalHeader>
+          <ModalCloseButton />
+
           <ModalBody>
             <FormControl>
               <FormLabel>Type your 5-digit group code:</FormLabel>
@@ -95,13 +97,15 @@ const JoinGroupModal: React.FC<ModalProps> = (props: ModalProps) => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" isLoading={loading}>
-              Join
-            </Button>
-            <Button onClick={props.closeModal}>Cancel</Button>
+            <HStack spacing="1em">
+              <Button type="submit" isLoading={loading}>
+                Join
+              </Button>
+              <Button onClick={props.closeModal}>Cancel</Button>
+            </HStack>
           </ModalFooter>
-        </form>
-      </ModalContent>
+        </ModalContent>
+      </form>
     </Modal>
   );
 };
