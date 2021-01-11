@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { Tabs, Tab, Box, TabPanels, TabPanel, TabList } from '@chakra-ui/react';
-import { User } from './ParentContainer';
+import { User, Test } from './ParentContainer';
+import { getStatusFromTests } from '../utils/getStatusFromDate';
+import { UserStatus } from '../types';
 
 type Props = {
   users: User[];
@@ -8,7 +11,12 @@ type Props = {
 };
 
 const ListView: React.FC<Props> = (props: Props) => {
-  const userRows = props.users.map((user, index) => {
+  const pending: any = [];
+  const positive: any = [];
+  const untested: any = [];
+  const good: any = [];
+
+  const listItem = (name: string) => {
     return (
       <Box
         color="black"
@@ -16,11 +24,22 @@ const ListView: React.FC<Props> = (props: Props) => {
         paddingTop="0.25rem"
         paddingBottom="0.25rem"
         borderBottom="1px solid #C4C4C4"
-        key={index}
       >
-        {user.name}
+        {name}
       </Box>
     );
+  };
+  props.users.forEach((user) => {
+    const status = getStatusFromTests(user.tests as Test[]);
+    if (status == UserStatus.GOOD) {
+      good.push(listItem(user.name as string));
+    } else if (status == UserStatus.UNTESTED) {
+      untested.push(listItem(user.name as string));
+    } else if (status == UserStatus.PENDING) {
+      pending.push(listItem(user.name as string));
+    } else if (status == UserStatus.POSITIVE) {
+      positive.push(listItem(user.name as string));
+    }
   });
 
   return (
@@ -42,13 +61,10 @@ const ListView: React.FC<Props> = (props: Props) => {
             <Tab>Positive</Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>{userRows}</TabPanel>
-            <TabPanel>
-              <p>two!</p>
-            </TabPanel>
-            <TabPanel>
-              <p>three!</p>
-            </TabPanel>
+            <TabPanel>{good}</TabPanel>
+            <TabPanel>{pending}</TabPanel>
+            <TabPanel>{untested}</TabPanel>
+            <TabPanel>{positive}</TabPanel>
           </TabPanels>
         </Tabs>
       </Box>

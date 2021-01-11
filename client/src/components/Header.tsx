@@ -1,9 +1,33 @@
-import React from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { Profile } from './ParentContainer';
 // components
-import { Flex, Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import axios from 'axios';
+
+const getCurrUser = async (): Promise<Profile> => {
+  try {
+    const currProfile = await axios.get('/user');
+    return currProfile.data;
+  } catch (e: any) {
+    if (e.response) {
+      throw new Error(e.response.data.message);
+    } else {
+      throw new Error('YOU DONT EXIST');
+    }
+  }
+};
 
 const Header: React.FC = () => {
+  const [name, setName] = useState<string>('');
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const profile: Profile = await getCurrUser();
+        setName(profile.name as string);
+      } catch (e) {}
+    };
+    getProfile();
+  });
   return (
     <Flex
       as="nav"
@@ -20,6 +44,9 @@ const Header: React.FC = () => {
           Bubbles
         </Heading>
       </Flex>
+      <Box display={{ base: 'block' }}>
+        <Text fontSize="3xl">{name}</Text>
+      </Box>
     </Flex>
   );
 };

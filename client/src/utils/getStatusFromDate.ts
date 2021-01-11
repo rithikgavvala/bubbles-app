@@ -12,7 +12,7 @@ import moment from 'moment';
 const getStatusFromTests = (tests: Test[]): UserStatus => {
   console.log(tests);
   const now = moment();
-  if (!tests) {
+  if (!tests || tests.length == 0) {
     return UserStatus.UNTESTED;
   }
   //   const diff = now.diff(testDate, 'days');

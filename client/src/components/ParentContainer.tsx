@@ -71,12 +71,17 @@ const ParentContainer: React.FC = () => {
     };
 
     const fetchAllData = async () => {
-      const profile = await fetchProfile();
-      if (!profile) {
+      try {
+        const profile = await fetchProfile();
+        if (!profile) {
+          history.push('/join');
+        } else {
+          await fetchUsers();
+        }
+      } catch (e) {
         history.push('/join');
-      } else {
-        await fetchUsers();
       }
+
       setLoading(false);
     };
     fetchAllData();

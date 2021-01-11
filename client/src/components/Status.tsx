@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Profile, Test } from './ParentContainer';
 import { getStatusFromTests } from '../utils/getStatusFromDate';
 import { UserStatus } from '../types';
@@ -46,18 +46,9 @@ const mapStatusToTag = (status: UserStatus): Status => {
 };
 
 const Header: React.FC<Props> = (props: Props) => {
-  const [status, setStatus] = useState<Status>({
-    color: '#68D391',
-    message: 'Good',
-    feedback: "you're good to go baby!",
-  });
   console.log(props.user);
 
-  useEffect(() => {
-    const status: UserStatus = getStatusFromTests(props.user.tests as Test[]);
-    console.log(status);
-    setStatus(mapStatusToTag(status));
-  }, []);
+  const status = mapStatusToTag(getStatusFromTests(props.user.tests as Test[]));
 
   return (
     <Flex as="nav" justify="space-between" wrap="wrap" padding="1.5rem" bg="white" color="black" height="100%">
