@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import StatusContainer from './StatusContainer';
 import { TestStatus } from '../types';
 import ListView from './ListView';
+import Footer from './Footer';
 import { Box } from '@chakra-ui/react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -90,6 +91,7 @@ const ParentContainer: React.FC = () => {
         <StatusContainer user={profile} />
         <ListView users={users} bubbleCode={profile ? profile.bubbleCode : 'NA'} />
       </Box>
+      <Footer/>
     </>
   ) : (
     <>

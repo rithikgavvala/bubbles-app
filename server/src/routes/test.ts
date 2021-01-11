@@ -4,14 +4,16 @@ import { createNew, IUser, User, ITest, Test } from "../schema";
 export let testRoutes = express.Router();
 
 testRoutes.route("/add").post(async (req, res, next) => {
+  console.log("HELLO TEST")
+  console.log(req.body.testDate)
+  console.log(req.body.userTestStatus)
   const reqUser = req.user as IUser;
   const user = await User.findById(reqUser._id);
 
-  let dateObj = new Date(req.body.date);
   console.log(req.params.status);
   let test = createNew<ITest>(Test, {
-    date: dateObj,
-    status: req.body.status,
+    date: req.body.testDate,
+    status: req.body.userTestStatus,
   });
   await test.save();
 
