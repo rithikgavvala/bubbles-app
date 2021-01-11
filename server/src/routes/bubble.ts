@@ -43,7 +43,7 @@ bubbleRoutes.route("/create").post(async (req, res, next) => {
 
   //logic to randomize here
   let bubble = createNew<IBubble>(Bubble, {
-    name: "TEST_BUB",
+    name: req.body.name,
     code: nanoid(),
   });
   await bubble.save();
@@ -62,7 +62,7 @@ bubbleRoutes.route("/pop").get(async (req, res, next) => {
   const reqUser = req.user as IUser;
   const user = await User.findById(reqUser._id);
   if (!user) {
-    return next("User not found");
+    return res.send({error: true});
   }
   console.log(user);
 

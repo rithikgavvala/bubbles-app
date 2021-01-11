@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Status from './Status';
+import StatusContainer from './StatusContainer';
 import ListView from './ListView';
 import { Box } from '@chakra-ui/react';
 import axios from 'axios';
@@ -101,13 +101,13 @@ const ParentContainer: React.FC = () => {
       <Box minH="100%">
       {console.log(users)}
 
-        <Status />
+        <StatusContainer />
         <ListView users={users} bubbleCode={profile ? profile.bubbleCode : "NA" }/>
        
       </Box>
     </> :
     <>
-    <Status />  
+    <StatusContainer />  
         <Box
             paddingLeft="1.5rem"
             fontWeight="300"
