@@ -140,8 +140,8 @@ const AddModal: React.FC<ModalProps> = (props: ModalProps) => {
           </ModalBody>
           <ModalFooter>
             <HStack spacing="1em">
-              <Button onClick={props.closeModal}>Cancel</Button>
-              <Button type="submit" bg="tomato">
+              <Button onClick={props.closeModal}>Nard</Button>
+              <Button color="white" type="submit" bg="#3182CE">
                 Save
               </Button>
             </HStack>
