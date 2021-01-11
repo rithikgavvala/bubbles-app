@@ -32,12 +32,15 @@ type ModalProps = {
 const PopModal: React.FC<ModalProps> = (props: ModalProps) => {
   const history = useHistory();
   const toast = useToast();
-  const handlePopClick = async (event: React.FormEvent) => {
+  const handlePopClick = async (event: React.SyntheticEvent) => {
     event.preventDefault();
+    console.log('CLICK');
     try {
+      console.log('TRY CLICK');
       const val = await popUserBubble();
       console.log('VAL TEST', val);
       if (!val) {
+        console.log('IN TOAST');
         toast({
           title: 'Bye!',
           description: 'You have popped the bubble!',
@@ -45,8 +48,10 @@ const PopModal: React.FC<ModalProps> = (props: ModalProps) => {
           duration: 5000,
           isClosable: true,
         });
+        history.push('/group');
+      } else {
+        console.log('OUT TOAST');
       }
-      history.push('/join');
     } catch (e) {
       console.log(e);
       toast({

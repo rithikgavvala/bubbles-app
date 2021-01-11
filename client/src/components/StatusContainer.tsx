@@ -2,20 +2,22 @@ import React from 'react';
 import Status from './Status';
 import PopButton from './PopButton';
 
-import {Grid, Box} from "@chakra-ui/react";
+import {HStack, Box} from "@chakra-ui/react";
 
 
 const StatusContainer: React.FC = () => {
     return (
-        <Grid templateColumns="repeat(5,1fr)" >
-            <Box w="100%">
+        <HStack  spacing= "">
+            <Box w="75%">
                 <Status />
             </Box>
-            <Box w="100%">
+            <Box 
+        
+            w="25%">
                 <PopButton />
             </Box>
 
-        </Grid>
+        </HStack>
 
     );
 

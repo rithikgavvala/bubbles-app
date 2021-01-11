@@ -12,7 +12,15 @@ const PopButton: React.FC = () => {
 
     return (
         <>
-            <Button bg="#FEB2B2" onClick={onOpenPop}>
+            <Button 
+                bg="#FEB2B2" 
+        
+                height="4rem"
+
+                onClick={onOpenPop}
+                borderRadius="100%"
+                color="white"    
+            >
                 Pop!
             </Button>
             <PopModal open={isPopModalOpen} closeModal={() => setPopModalOpen(false)} />
