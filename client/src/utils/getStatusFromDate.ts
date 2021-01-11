@@ -10,7 +10,7 @@ import moment from 'moment';
 
 */
 const getStatusFromTests = (tests: Test[]): UserStatus => {
-  console.log("STATISTICS", tests);
+  console.log('STATISTICS', tests);
 
   const now = moment();
   if (!tests || tests.length == 0) {
@@ -23,7 +23,7 @@ const getStatusFromTests = (tests: Test[]): UserStatus => {
     return UserStatus.POSITIVE;
   }
 
-  if (tests[tests.length - 1].status == TestStatus.INPROGRESS) {
+  if (tests[tests.length - 1].status == TestStatus.INPROGRESS && now.diff(tests[tests.length - 1].date, 'days') <= 2) {
     return UserStatus.PENDING;
   }
 
