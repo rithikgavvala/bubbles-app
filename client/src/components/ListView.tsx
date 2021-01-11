@@ -42,6 +42,12 @@ const ListView: React.FC<Props> = (props: Props) => {
     }
   });
 
+  const noUserMessage = (
+    <Box color="black" paddingLeft="1.5rem" paddingTop="0.25rem" paddingBottom="0.25rem">
+      No users
+    </Box>
+  );
+
   return (
     <>
       <Box paddingLeft="1.5rem" fontWeight="300">
@@ -61,38 +67,10 @@ const ListView: React.FC<Props> = (props: Props) => {
             <Tab>Positive</Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>{good &&       <Box
-        color="black"
-        paddingLeft="1.5rem"
-        paddingTop="0.25rem"
-        paddingBottom="0.25rem"
-      >
-        No users
-      </Box>}</TabPanel>
-            <TabPanel>{pending &&       <Box
-        color="black"
-        paddingLeft="1.5rem"
-        paddingTop="0.25rem"
-        paddingBottom="0.25rem"
-      >
-        No users
-      </Box>}</TabPanel>
-            <TabPanel>{untested &&       <Box
-        color="black"
-        paddingLeft="1.5rem"
-        paddingTop="0.25rem"
-        paddingBottom="0.25rem"
-      >
-        No users
-      </Box>}</TabPanel>
-            <TabPanel>{positive &&       <Box
-        color="black"
-        paddingLeft="1.5rem"
-        paddingTop="0.25rem"
-        paddingBottom="0.25rem"
-      >
-        No users
-      </Box>}</TabPanel>
+            <TabPanel>{good ? good : noUserMessage}</TabPanel>
+            <TabPanel>{pending ? pending : noUserMessage}</TabPanel>
+            <TabPanel>{untested ? untested : noUserMessage}</TabPanel>
+            <TabPanel>{positive ? positive : noUserMessage} </TabPanel>
           </TabPanels>
         </Tabs>
       </Box>

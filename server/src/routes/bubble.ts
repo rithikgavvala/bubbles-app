@@ -22,6 +22,8 @@ bubbleRoutes.route("/").get(async (req, res, next) => {
 
   console.log(usersInBubble);
 
+  usersInBubble = usersInBubble.filter((curr) => user.uuid !== curr.uuid);
+
   let usersRes = [] as any;
 
   usersRes = usersInBubble.map((element) => {
@@ -30,10 +32,8 @@ bubbleRoutes.route("/").get(async (req, res, next) => {
       tests: element.tests,
     };
   });
-  usersRes = usersRes.filter((curr) => user.name != curr.name);
 
   if (usersRes.length == 0) {
-    console.log("NO USERS");
     return res.send({ data: [] });
   } else {
     return res.send({ data: usersRes });
@@ -41,7 +41,6 @@ bubbleRoutes.route("/").get(async (req, res, next) => {
 });
 
 bubbleRoutes.route("/create").post(async (req, res, next) => {
-  console.log("HELLO TEST");
   const reqUser = req.user as IUser;
 
   const user = await User.findById(reqUser._id);
@@ -63,17 +62,14 @@ bubbleRoutes.route("/create").post(async (req, res, next) => {
 });
 
 bubbleRoutes.route("/pop").post(async (req, res, next) => {
-  console.log("hello");
   const reqUser = req.user as IUser;
   const user = await User.findById(reqUser._id);
   if (!user) {
     return next("User not found");
   }
-  console.log(user);
 
   user.bubble = undefined;
   await user.save();
-  console.log(user);
 
   return res.send({ error: false });
 
@@ -83,8 +79,7 @@ bubbleRoutes.route("/join/:id").post(async (req, res, next) => {
   const reqUser = req.user as IUser;
   const groupId = req.params.id;
   const user = await User.findById(reqUser._id);
-  console.log(reqUser);
-  console.log(groupId);
+
   const bubble = await Bubble.findOne({ code: groupId });
   if (!bubble) {
     return next("no bubble foud");
