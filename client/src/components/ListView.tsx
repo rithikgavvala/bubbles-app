@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs, Tab, Box, TabPanels, TabPanel, TabList } from '@chakra-ui/react';
-import { User } from './ParentContainer';
+import {  User } from './ParentContainer';
 
 type Props = {
   users: User[];

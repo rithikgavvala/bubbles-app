@@ -1,20 +1,33 @@
 import React, { useState } from 'react';
-import PopModal from './PopModal';
-import { Button } from '@chakra-ui/react';
+import UpdateTestModal from './UpdateTestModal';
+import { Button , Box} from '@chakra-ui/react';
+import {Profile}  from './ParentContainer'
 
-const UpdateTestButton: React.FC = () => {
-  const [isAddModalOpen, setAddModalOpen] = useState<boolean>(false);
+type Props = {
+  profile: Profile
+  handleProfileChange: (profile : Profile) => void
+};
 
-  const onAddOpen = () => {
-    setAddModalOpen(true);
+const UpdateTestButton: React.FC<Props>= (props: Props) => {
+  const [isUpdateModalOpen, setUpdateModalOpen] = useState<boolean>(false);
+
+  const onUpdateOpen = () => {
+    setUpdateModalOpen(true);
   };
+
 
   return (
     <>
-      <Button bg="#FEB2B2" height="4rem" onClick={onAddOpen} borderRadius="100%" color="white">
-        Pop!
+    <Box
+      paddingLeft="1.5rem"
+      paddingRight="1.5rem"
+    >
+    <Button size="lg" bg="#3182CE" paddingRight="1.5rem" width="100%" borderRadius="8px" onClick={onUpdateOpen}  color="white">
+       Update Test
       </Button>
-      <PopModal open={isAddModalOpen} closeModal={() => setAddModalOpen(false)} />
+      <UpdateTestModal profile={props.profile} handleProfileChange={props.handleProfileChange} open={isUpdateModalOpen} closeModal={() => setUpdateModalOpen(false)} />
+    </Box>
+   
     </>
   );
 };
