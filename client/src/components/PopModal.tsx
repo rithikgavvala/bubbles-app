@@ -35,11 +35,8 @@ const PopModal: React.FC<ModalProps> = (props: ModalProps) => {
   const toast = useToast();
   const handlePopClick = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    console.log('CLICK');
     try {
-      console.log('TRY CLICK');
       const val = await popUserBubble();
-      console.log('VAL TEST', val);
       if (!val) {
         console.log('IN TOAST');
         toast({

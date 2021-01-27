@@ -20,7 +20,9 @@ userRoutes.route("/").get(async (req, res, next) => {
       return res.send({
         name: user.name,
         bubbleCode: user.bubble ? user.bubble.code : null,
+        bubbleName: user.bubble ? user.bubble.name : null,
         tests: user.tests,
+        bubbles: user.bubbles
       });
     });
   //   if (!user) {

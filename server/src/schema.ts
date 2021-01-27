@@ -46,6 +46,7 @@ export interface IUser extends RootDocument {
   admin?: boolean;
   bubble?: IBubble;
   tests: ITest[];
+  bubbles: IBubble[]
 }
 
 const TestSchema = new mongoose.Schema(
@@ -59,6 +60,24 @@ const TestSchema = new mongoose.Schema(
     usePushEach: true,
   }
 );
+
+const BubbleSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: false,
+    },
+    code: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+  },
+  {
+    usePushEach: true,
+  }
+);
+
 
 export const User = mongoose.model<IUser & mongoose.Document>(
   "User",
@@ -88,29 +107,13 @@ export const User = mongoose.model<IUser & mongoose.Document>(
         index: true,
         ref: "Bubble",
       },
+      bubbles:[BubbleSchema],
       tests: [TestSchema],
     },
     {
       usePushEach: true,
     }
   )
-);
-
-const BubbleSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: false,
-    },
-    code: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-  },
-  {
-    usePushEach: true,
-  }
 );
 
 BubbleSchema.virtual("id").get(function (this: any) {

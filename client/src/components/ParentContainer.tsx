@@ -18,6 +18,7 @@ export type User = {
 };
 
 export type Profile = User & {
+  bubbleName?: string;
   bubbleCode?: string;
 };
 
@@ -99,7 +100,7 @@ const ParentContainer: React.FC = () => {
       <Box minH="100%">
         {console.log(users)}
         <StatusContainer user={profile} />
-        <ListView users={users} bubbleCode={profile ? profile.bubbleCode : 'NA'} />
+        <ListView users={users} bubbleCode={profile ? profile.bubbleName : 'NA'} />
       </Box>
       <Footer profile={profile} handleProfileChange={handleProfileChange} />
     </>
