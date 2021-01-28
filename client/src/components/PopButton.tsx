@@ -13,7 +13,7 @@ const PopButton: React.FC = () => {
     return (
         <>
             <Button 
-                bg="#FEB2B2" 
+                bg="#2E5E79" 
         
                 height="4rem"
 

@@ -72,9 +72,9 @@ const PopModal: React.FC<ModalProps> = (props: ModalProps) => {
           <ModalFooter>
           
             <HStack spacing="1em">
-              <Button onClick={props.closeModal}>Nard</Button>
+              <Button onClick={props.closeModal}>No</Button>
               <Button color="white" type="submit" bg="#FEB2B2">
-                Pop!
+                Yes
               </Button>
             </HStack>
           </ModalFooter>

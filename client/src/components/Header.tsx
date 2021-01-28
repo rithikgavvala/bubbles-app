@@ -44,8 +44,8 @@ const Header: React.FC = () => {
       justify="space-between"
       wrap="wrap"
       padding="1.5rem"
-      bg="#3182CE"
-      color="white"
+      bg="#A9CFE2"
+      color="#3A3A3A"
       height="100%"
     >
       <Flex align="center" mr={5} height="100%">

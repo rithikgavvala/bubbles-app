@@ -17,6 +17,7 @@ userRoutes.route("/").get(async (req, res, next) => {
       // if(!user.bubble) {
       //     res.redirect('/join');
       // }
+      console.log("TST", user.bubbles)
       return res.send({
         name: user.name,
         bubbleCode: user.bubble ? user.bubble.code : null,

@@ -12,12 +12,18 @@ export type Test = {
   status: TestStatus;
 };
 
+export type Bubble = {
+  code: string;
+  name: string;
+}
+
 export type User = {
   name?: string;
   tests?: Test[];
 };
 
 export type Profile = User & {
+  bubbles?: Bubble[];
   bubbleName?: string;
   bubbleCode?: string;
 };
@@ -39,6 +45,7 @@ const getUsers = async (): Promise<any> => {
 const getCurrUser = async (): Promise<Profile> => {
   try {
     const currProfile = await axios.get('/user');
+    console.log("CURPROF", currProfile.data)
     return currProfile.data;
   } catch (e: any) {
     if (e.response) {
@@ -99,14 +106,14 @@ const ParentContainer: React.FC = () => {
     <>
       <Box minH="100%">
         {console.log(users)}
-        <StatusContainer user={profile} />
-        <ListView users={users} bubbleCode={profile ? profile.bubbleName : 'NA'} />
+        <StatusContainer bubbles={profile.bubbles as Bubble[]} user={profile} bubbleName={profile ? profile.bubbleName as string : "Group not found"}/>
+        <ListView users={users} bubbleCode={profile ? profile.bubbleCode : 'NA'} />
       </Box>
       <Footer profile={profile} handleProfileChange={handleProfileChange} />
     </>
   ) : (
     <>
-      <StatusContainer user={profile} />
+      <StatusContainer bubbles={profile.bubbles as Bubble[]}  bubbleName={profile ? profile.bubbleName as string : "Group not found"} user={profile} />
       <Box paddingLeft="1.5rem" fontWeight="300">
         Currently loading data...
       </Box>

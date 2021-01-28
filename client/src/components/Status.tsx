@@ -1,11 +1,14 @@
 import React from 'react';
-import { Profile, Test } from './ParentContainer';
+import { Profile, Test, Bubble } from './ParentContainer';
 import { getStatusFromTests } from '../utils/getStatusFromDate';
 import { UserStatus } from '../types';
+import BubblesMenu from './BubblesMenu';
 // components
-import { Flex, Heading, Tag, TagLabel, VStack, Text } from '@chakra-ui/react';
+import { Flex, Tag, TagLabel, VStack, Text } from '@chakra-ui/react';
 
 type Props = {
+  bubbles: Bubble[];
+  bubbleName: string;
   user: Profile;
 };
 
@@ -18,30 +21,30 @@ type Status = {
 const mapStatusToTag = (status: UserStatus): Status => {
   if (status == UserStatus.GOOD) {
     return {
-      color: '#68D391',
-      message: 'Good',
-      feedback: "you're good to go baby!",
+      color: '#C1FFB7',
+      message: 'Clear',
+      feedback: "You are good to go!",
     };
   }
   if (status == UserStatus.POSITIVE) {
     return {
-      color: '#E53E3E',
+      color: '#FF6A6A',
       message: 'Positive',
-      feedback: 'get well soon sick ass boi',
+      feedback: 'Get well soon',
     };
   }
   if (status == UserStatus.PENDING) {
     return {
       color: '#F6E05E',
       message: 'Pending',
-      feedback: 'Cross ur fingers bruh',
+      feedback: 'Update your test result',
     };
   }
 
   return {
-    color: '#FC8181',
+    color: '#D9D9D9',
     message: 'Untested',
-    feedback: 'bitch get yo ass tested rn',
+    feedback: 'Please get tested soon',
   };
 };
 
@@ -54,12 +57,15 @@ const Status: React.FC<Props> = (props: Props) => {
   return (
     <Flex as="nav" justify="space-between" wrap="wrap" padding="1.5rem" bg="white" color="black" height="100%">
       <VStack spacing={4} align="left">
-        <Heading as="h1" letterSpacing={'-.05rem'}>
-          Status
-        </Heading>
-        <Tag align="center" w={'6em'} size={'md'} borderRadius="full" variant="solid" bg={status.color} alignItems="center">
+    
+        <BubblesMenu bubbles={props.bubbles} bubbleName={props.bubbleName} />
+        <div>
+          My Status:         <Tag color="black" align="center" w={'6em'} size={'md'} borderRadius="full" variant="solid" bg={status.color} alignItems="center">
           <TagLabel marginLeft="auto" marginRight="auto" align="center">{status.message}</TagLabel>
         </Tag>
+
+        </div>
+
         <Text> {status.feedback} </Text>
       </VStack>
     </Flex>

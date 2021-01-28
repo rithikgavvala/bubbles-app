@@ -22,7 +22,7 @@ const AddTestButton: React.FC<Props> = (props: Props) => {
       paddingLeft="1.5rem"
       paddingRight="1.5rem"
     >
-    <Button size="lg" bg="#3182CE" paddingRight="1.5rem" width="100%" borderRadius="8px" onClick={onAddOpen}  color="white">
+    <Button size="lg" bg="#2E5E79" paddingRight="1.5rem" width="100%" borderRadius="8px" onClick={onAddOpen}  color="#F5FDFF">
         Add Test
       </Button>
       <AddTestModal profile={props.profile} handleProfileChange={props.handleProfileChange} open={isAddModalOpen} closeModal={() => setAddModalOpen(false)} />

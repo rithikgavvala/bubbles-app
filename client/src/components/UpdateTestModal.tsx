@@ -57,6 +57,7 @@ const UpdateTestModal: React.FC<ModalProps> = (props: ModalProps) => {
     
       const newProfile: Profile = {
         name: props.profile.name,
+        bubbleName: props.profile.bubbleName,
         bubbleCode: props.profile.bubbleCode,
         tests: userTestsUpdated.data,
 			};

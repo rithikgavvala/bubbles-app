@@ -85,6 +85,7 @@ const AddModal: React.FC<ModalProps> = (props: ModalProps) => {
       tempTests.push(tempTest);
       const newProfile: Profile = {
         name: props.profile.name as string,
+        bubbleName: props.profile.bubbleName as string,
         bubbleCode: props.profile.bubbleCode as string,
         tests: tempTests,
       };
