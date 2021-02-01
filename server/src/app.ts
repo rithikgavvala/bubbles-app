@@ -36,7 +36,7 @@ app.get("/status", (req, res) => {
 
 // app.use("/",);
 app.use("/auth", authRoutes);
-app.use("/bubble", isAuthenticated, bubbleRoutes);
+app.use("/api/bubble", isAuthenticated, bubbleRoutes);
 app.use("/user", isAuthenticated, userRoutes);
 app.use("/test", isAuthenticated, testRoutes);
 app.use(

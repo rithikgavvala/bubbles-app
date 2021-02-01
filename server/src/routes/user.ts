@@ -17,13 +17,14 @@ userRoutes.route("/").get(async (req, res, next) => {
       // if(!user.bubble) {
       //     res.redirect('/join');
       // }
-      console.log("TST", user.bubbles)
+      console.log("TST", user.bubbles);
       return res.send({
         name: user.name,
         bubbleCode: user.bubble ? user.bubble.code : null,
         bubbleName: user.bubble ? user.bubble.name : null,
         tests: user.tests,
-        bubbles: user.bubbles
+        bubbles: user.bubbles,
+        bubble: user.bubble,
       });
     });
   //   if (!user) {

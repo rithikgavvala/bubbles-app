@@ -15,7 +15,7 @@ import {
 
 const popUserBubble = async (): Promise<any> => {
   try {
-    await axios.post('/bubble/pop');
+    await axios.post('/api/bubble/pop');
   } catch (e: any) {
     if (e.response) {
       throw new Error(e.response.data.message);
@@ -70,7 +70,6 @@ const PopModal: React.FC<ModalProps> = (props: ModalProps) => {
         <ModalCloseButton />
         <form onSubmit={handlePopClick}>
           <ModalFooter>
-          
             <HStack spacing="1em">
               <Button onClick={props.closeModal}>No</Button>
               <Button color="white" type="submit" bg="#FEB2B2">

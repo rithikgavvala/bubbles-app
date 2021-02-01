@@ -29,7 +29,7 @@ function delay(ms: number) {
 
 const joinGroup = async (id: string): Promise<any> => {
   try {
-    const resp = await axios.post('/bubble/join/' + id);
+    const resp = await axios.post('/api/bubble/join/' + id);
     return resp.data;
   } catch (e: any) {
     if (e.response) {
