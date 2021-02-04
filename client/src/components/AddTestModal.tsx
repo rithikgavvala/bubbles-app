@@ -39,6 +39,7 @@ const getDateStrings = () => {
     const prevFormatDate = prevDate.format('dddd, MMMM Do');
     selectDateStrings.push(prevFormatDate);
   }
+  selectDateStrings.reverse()
   console.log(selectDateStrings);
   return selectDateStrings;
 };

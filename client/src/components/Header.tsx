@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Profile } from './ParentContainer';
 // components
-import { Tag, Box, Flex, Heading } from '@chakra-ui/react';
+import SettingsDrawer from './SettingsDrawer';
+import {  Box, Flex, Heading } from '@chakra-ui/react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -56,10 +57,8 @@ const Header: React.FC = () => {
         </Link>
       </Flex>
       <Box display={{ base: 'block' }}>
-        <Tag
-        height="2rem"
-        borderRadius="100%"
-       >{name}</Tag>
+        <SettingsDrawer name={name}/>
+ 
       </Box>
     </Flex>
   );

@@ -3,7 +3,6 @@ import AddTestModal from './AddTestModal';
 import { Box, Button } from '@chakra-ui/react';
 import {Profile}  from './ParentContainer'
 
-
 type Props = {
   profile: Profile
   handleProfileChange: (profile : Profile) => void

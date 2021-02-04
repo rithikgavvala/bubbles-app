@@ -76,12 +76,15 @@ bubbleRoutes.route("/pop").post(async (req, res, next) => {
 
   // user.bubbles.pull({ code: req.params.id });
 });
-bubbleRoutes.route("/join/:id").get(async (req, res, next) => {
+bubbleRoutes.route("/join/:id").post(async (req, res, next) => {
+  console.log("USER ARE YOU THERE")
+
   const reqUser = req.user as IUser;
   const groupId = req.params.id;
   const user = await User.findById(reqUser._id);
-
+  console.log("USER ARE YOU THERE", user)
   const bubble = await Bubble.findOne({ code: groupId });
+  console.log("I FOUND BUBBLE")
   if (!bubble) {
     return next("no bubble foud");
   }
@@ -95,7 +98,7 @@ bubbleRoutes.route("/join/:id").get(async (req, res, next) => {
   })
   
   user.bubbles.push(bubble);
-  user.bubble = bubble;
+  // user.bubble = bubble;
   
   await user.save();
   return res.send({ error: false });
