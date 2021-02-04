@@ -13,9 +13,8 @@ const routing = (
     <ChakraProvider>
       <Router>
         <Header />
-
         <Switch>
-          <Route exact path="/" component={ParentContainer} />
+          <Route exact path="/bubble/:id" component={ParentContainer} />
           <Route exact path="/join" component={GroupPage} />
         </Switch>
       </Router>

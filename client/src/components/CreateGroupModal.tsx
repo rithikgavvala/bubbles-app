@@ -29,7 +29,7 @@ function delay(ms: number) {
 
 const createGroup = async (bubbleName: string): Promise<any> => {
   try {
-    const resp = await axios.post('/bubble/create', { name: bubbleName });
+    const resp = await axios.post('/api/bubble/create', { name: bubbleName });
     return resp.data;
   } catch (e: any) {
     if (e.response) {
